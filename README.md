@@ -1,2 +1,2 @@
-# OCR-P5
+# OpenClassRoom-P5
 OpenClassRoom project n°5
