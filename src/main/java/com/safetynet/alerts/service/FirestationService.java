@@ -11,8 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class FirestationService {
 
+  private final FirestationRepository firestationRepository;
+
   @Autowired
-  private FirestationRepository firestationRepository;
+  public FirestationService(
+      FirestationRepository firestationRepository) {
+    this.firestationRepository = firestationRepository;
+  }
 
   public Optional<Firestation> getFirestation(final Long id) {
     return firestationRepository.findById(id);

@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FirestationController {
 
+  private final FirestationService firestationService;
+
   @Autowired
-  private FirestationService firestationService;
+  public FirestationController(FirestationService firestationService) {
+    this.firestationService = firestationService;
+  }
 
   /**
    * Create - Add a new firestation/address maping

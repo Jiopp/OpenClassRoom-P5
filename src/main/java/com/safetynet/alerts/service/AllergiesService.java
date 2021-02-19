@@ -12,8 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AllergiesService {
 
+  private final AllergiesRepository allergiesRepository;
+
   @Autowired
-  private AllergiesRepository allergiesRepository;
+  public AllergiesService(AllergiesRepository allergiesRepository) {
+    this.allergiesRepository = allergiesRepository;
+  }
 
   public Optional<Allergies> getAllergy(final Long id) {
     return allergiesRepository.findById(id);

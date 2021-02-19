@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonController {
 
-  @Autowired
+  final
   PersonService personService;
+
+  @Autowired
+  public PersonController(PersonService personService) {
+    this.personService = personService;
+  }
 
   /**
    * Create - Add a new person
@@ -50,30 +55,6 @@ public class PersonController {
   @PutMapping("/person/{firstName}/{lastName}")
   public Optional<Person> updatePerson(@PathVariable("firstName") final String firstName,
       @PathVariable("lastName") final String lastName, @RequestBody Person person) {
-
-    Optional<Person> p = personService.getPersonByName(firstName, lastName);
-    if (p.isPresent()) {
-      Person currentPerson = p.get();
-
-      if (person.getEmail() != null) {
-        currentPerson.setEmail(person.getEmail());
-      }
-      if (person.getAddress() != null) {
-        currentPerson.setAddress(person.getAddress());
-      }
-      if (person.getCity() != null) {
-        currentPerson.setCity(person.getCity());
-      }
-      if (person.getZip() != null) {
-        currentPerson.setZip(person.getZip());
-      }
-      if (person.getPhone() != null) {
-        currentPerson.setPhone(person.getPhone());
-      }
-      personService.savePerson(currentPerson);
-      return Optional.of(currentPerson);
-    } else {
-      return Optional.empty();
-    }
+    return personService.updatePerson(person, firstName, lastName);
   }
 }
