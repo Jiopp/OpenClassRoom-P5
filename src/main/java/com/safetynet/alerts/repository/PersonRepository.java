@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-  @Transactional
   void deletePersonByFirstNameAndLastName(String firstName,String lastName);
 
 }

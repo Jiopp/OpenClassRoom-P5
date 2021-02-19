@@ -6,6 +6,7 @@ import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Data
 @Service
@@ -26,6 +27,7 @@ public class PersonService {
     personRepository.deleteById(id);
   }
 
+  @Transactional
   public void deletePersonByName(final String firstName, final String lastName) {
     personRepository.deletePersonByFirstNameAndLastName(firstName, lastName);
   }
