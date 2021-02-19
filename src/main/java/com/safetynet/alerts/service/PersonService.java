@@ -15,21 +15,13 @@ public class PersonService {
   @Autowired
   private PersonRepository personRepository;
 
-  public Optional<Person> getPerson(final Long id) {
-    return personRepository.findById(id);
-  }
-
-  public Iterable<Person> getPersons() {
-    return personRepository.findAll();
-  }
-
-  public void deletePersonByID(final Long id) {
-    personRepository.deleteById(id);
-  }
-
   @Transactional
   public void deletePersonByName(final String firstName, final String lastName) {
     personRepository.deletePersonByFirstNameAndLastName(firstName, lastName);
+  }
+
+  public Optional<Person> getPersonByName(final String firstName, final String lastName) {
+    return personRepository.getPersonByFirstNameAndLastName(firstName, lastName);
   }
 
   public Person savePerson(Person person) {
