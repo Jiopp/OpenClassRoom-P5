@@ -1,12 +1,11 @@
 package com.safetynet.alerts.service;
 
-    import com.safetynet.alerts.model.Person;
-    import com.safetynet.alerts.repository.PersonRepository;
-    import java.util.List;
-    import java.util.Optional;
-    import lombok.Data;
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.stereotype.Service;
+import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.repository.PersonRepository;
+import java.util.Optional;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Data
 @Service
@@ -23,8 +22,12 @@ public class PersonService {
     return personRepository.findAll();
   }
 
-  public void deletePerson(final Long id) {
+  public void deletePersonByID(final Long id) {
     personRepository.deleteById(id);
+  }
+
+  public void deletePersonByName(final String firstName, final String lastName) {
+    personRepository.deletePersonByFirstNameAndLastName(firstName, lastName);
   }
 
   public Person savePerson(Person person) {

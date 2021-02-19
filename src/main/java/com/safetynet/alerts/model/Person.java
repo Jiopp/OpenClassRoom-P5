@@ -25,7 +25,7 @@ public class Person {
   private String lastName;
 
   @Column
-  private String mail;
+  private String email;
 
   @Column
   private String address;
@@ -37,7 +37,7 @@ public class Person {
   private Integer zip;
 
   @Column
-  private Double phone;
+  private String phone;
 
   @Column
   private Date birthDate;

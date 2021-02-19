@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class firestationController {
+public class FirestationController {
 
   @Autowired
   private FirestationService firestationService;
@@ -27,6 +27,7 @@ public class firestationController {
   public Firestation createFirestation(@RequestBody Firestation firestation) {
     return firestationService.saveFirestation(firestation);
   }
+
 
   /**
    * Update - Update an existing firestation/address mapping
