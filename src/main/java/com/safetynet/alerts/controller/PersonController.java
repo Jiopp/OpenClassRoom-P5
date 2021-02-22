@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exception.PersonNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class PersonController {
    */
   @DeleteMapping("/person/{firstName}/{lastName}")
   public void deletePerson(@PathVariable("firstName") final String firstName,
-      @PathVariable("lastName") final String lastName) {
+      @PathVariable("lastName") final String lastName) throws PersonNotFoundException {
     personService.deletePersonByName(firstName, lastName);
   }
 

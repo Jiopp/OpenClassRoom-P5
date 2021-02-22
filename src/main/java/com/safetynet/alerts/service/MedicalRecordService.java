@@ -1,7 +1,8 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.model.MedicalRecord;
-import com.safetynet.alerts.repository.AllergiesRepository;
+import com.safetynet.alerts.model.Person;
+import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,25 @@ public class MedicalRecordService {
   }
 
   public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
+
+    Optional<Person> optionnalPerson = personService
+        .getPersonByName(medicalRecord.getFirstName(), medicalRecord.getLastName());
+    Person person = null;
+
+    if (optionnalPerson.isPresent()) {
+      person = optionnalPerson.get();
+    } else {
+      if (medicalRecord.getFirstName() != null && medicalRecord.getLastName() != null) {
+        person.setFirstName(medicalRecord.getFirstName());
+        person.setLastName(medicalRecord.getLastName());
+      }
+    }
+    if (medicalRecord.getBirthdate() != null) {
+      person.setBirthDate(medicalRecord.getBirthdate());
+    }
+    personService.savePerson(person);
+
+
     return medicalRecord;
   }
 

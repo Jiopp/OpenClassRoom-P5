@@ -40,6 +40,6 @@ public class Person {
   private String phone;
 
   @Column
-  private Date birthDate;
+  private String birthDate;
 
 }

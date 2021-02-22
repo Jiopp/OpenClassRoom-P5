@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import com.safetynet.alerts.exception.PersonNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 import java.util.Optional;
@@ -20,8 +21,10 @@ public class PersonService {
   }
 
   @Transactional
-  public void deletePersonByName(final String firstName, final String lastName) {
-    personRepository.deletePersonByFirstNameAndLastName(firstName, lastName);
+  public void deletePersonByName(final String firstName, final String lastName) throws PersonNotFoundException {
+    personRepository.delete(personRepository.getPersonByFirstNameAndLastName(firstName, lastName).orElseThrow(
+        PersonNotFoundException::new));
+    //personRepository.deletePersonByFirstNameAndLastName(firstName, lastName);
   }
 
   public Optional<Person> getPersonByName(final String firstName, final String lastName) {
