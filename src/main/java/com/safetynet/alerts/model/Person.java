@@ -2,6 +2,7 @@ package com.safetynet.alerts.model;
 
 import static javax.persistence.CascadeType.ALL;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,9 +46,11 @@ public class Person {
   @Column
   private String birthDate;
 
+  @JsonManagedReference
   @OneToMany(cascade = ALL, mappedBy = "person")
   private List<Medication> medications;
 
+  @JsonManagedReference
   @OneToMany(cascade = ALL, mappedBy = "person")
   private List<Allergies> allergies;
 
