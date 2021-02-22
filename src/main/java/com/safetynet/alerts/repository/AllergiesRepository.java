@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AllergiesRepository extends CrudRepository<Allergies, Long> {
   List<Allergies> findByPersonId(Long person_id);
+
+  void deleteByPersonId(Long person_id);
 }

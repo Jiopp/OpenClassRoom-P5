@@ -35,6 +35,10 @@ public class MedicationService {
     medicationRepository.deleteById(id);
   }
 
+  public void deleteMedicalRecordByPersonId(final Long person_id) {
+    medicationRepository.deleteByPersonId(person_id);
+  }
+
   public Medication saveMedicalRecord(Medication medication) {
     return medicationRepository.save(medication);
   }

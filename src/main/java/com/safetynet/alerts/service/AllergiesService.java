@@ -35,6 +35,11 @@ public class AllergiesService {
     allergiesRepository.deleteById(id);
   }
 
+  public void deleteAllergiesByPersonId(final Long person_id) {
+    allergiesRepository.deleteByPersonId(person_id);
+  }
+
+
   public Allergies saveAllergy(Allergies allergy) {
     return allergiesRepository.save(allergy);
   }
