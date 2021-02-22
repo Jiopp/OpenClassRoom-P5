@@ -1,11 +1,14 @@
 package com.safetynet.alerts.model;
 
-import java.sql.Date;
+import static javax.persistence.CascadeType.ALL;
+
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -16,7 +19,7 @@ public class Person {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long idPerson;
+  private Long id;
 
   @Column
   private String firstName;
@@ -41,5 +44,11 @@ public class Person {
 
   @Column
   private String birthDate;
+
+  @OneToMany(cascade = ALL, mappedBy = "person")
+  private List<Medication> medications;
+
+  @OneToMany(cascade = ALL, mappedBy = "person")
+  private List<Allergies> allergies;
 
 }

@@ -20,11 +20,9 @@ public class PersonService {
     this.personRepository = personRepository;
   }
 
-  @Transactional
   public void deletePersonByName(final String firstName, final String lastName) throws PersonNotFoundException {
     personRepository.delete(personRepository.getPersonByFirstNameAndLastName(firstName, lastName).orElseThrow(
         PersonNotFoundException::new));
-    //personRepository.deletePersonByFirstNameAndLastName(firstName, lastName);
   }
 
   public Optional<Person> getPersonByName(final String firstName, final String lastName) {

@@ -1,11 +1,13 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +26,22 @@ public class MedicalRecordController {
    * Create - Add a new medical record
    *
    * @param medicalRecord An object medicalRecord
-   * @return The medicalRecord object saved
+   * @return the person with the medical record
    */
   @PostMapping("/medicalRecord")
-  public MedicalRecord createMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+  public Person createMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
     return medicalRecordService.saveMedicalRecord(medicalRecord);
+  }
+
+  /**
+   * Update - update a  medical record
+   *
+   * @param medicalRecord An object medicalRecord
+   * @return The person with the medical record updated
+   */
+  @PutMapping("/medicalRecord")
+  public Person updateMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+    return medicalRecordService.updateMedicalRecord(medicalRecord);
   }
 
   /**

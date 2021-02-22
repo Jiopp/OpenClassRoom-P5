@@ -1,7 +1,11 @@
 package com.safetynet.alerts.service;
 
+import com.safetynet.alerts.model.Allergies;
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +27,69 @@ public class MedicalRecordService {
     this.personService = personService;
   }
 
-  public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
+  public Person saveMedicalRecord(MedicalRecord medicalRecord) {
 
-    Optional<Person> optionnalPerson = personService
+    Person person = getPersonAndSetBirthdate(medicalRecord);
+
+    person.setMedications(addMedicationsToAList(medicalRecord, person));
+    person.setAllergies(addAllergiesToAList(medicalRecord, person));
+
+    personService.savePerson(person);
+
+    return person;
+  }
+
+  public void deleteMedicalRecord(String firstName, String lastName) {
+    Long personID = personService.getPersonByName(firstName, lastName).orElseThrow().getId();
+
+    allergiesService.deleteAllergiesByPersonId(personID);
+    medicationService.deleteMedicalRecordByPersonId(personID);
+  }
+
+  public Person updateMedicalRecord(MedicalRecord medicalRecord) {
+
+    Person person = getPersonAndSetBirthdate(medicalRecord);
+
+    medicationService.deleteMedicalRecordByPersonId(person.getId());
+    allergiesService.deleteAllergiesByPersonId(person.getId());
+
+    person.setMedications(addMedicationsToAList(medicalRecord, person));
+    person.setAllergies(addAllergiesToAList(medicalRecord, person));
+
+    personService.savePerson(person);
+
+    return person;
+  }
+
+  private List<Allergies> addAllergiesToAList(MedicalRecord medicalRecord, Person person) {
+    List<Allergies> allergies = new ArrayList<>();
+    for (String allergiesToSave : medicalRecord.getAllergies()) {
+      Allergies allergy = new Allergies();
+      allergy.setAllergy(allergiesToSave);
+      allergy.setPerson(person);
+      allergies.add(allergy);
+    }
+    return allergies;
+  }
+
+  private List<Medication> addMedicationsToAList(MedicalRecord medicalRecord, Person person) {
+    List<Medication> medications = new ArrayList<>();
+    for (String medicationToSave : medicalRecord.getMedications()) {
+      Medication medication = new Medication();
+      medication.setMedication(medicationToSave);
+      medication.setPerson(person);
+      medications.add(medication);
+    }
+    return medications;
+  }
+
+  private Person getPersonAndSetBirthdate(MedicalRecord medicalRecord) {
+    Optional<Person> optionalPerson = personService
         .getPersonByName(medicalRecord.getFirstName(), medicalRecord.getLastName());
-    Person person = null;
+    Person person = new Person();
 
-    if (optionnalPerson.isPresent()) {
-      person = optionnalPerson.get();
+    if (optionalPerson.isPresent()) {
+      person = optionalPerson.get();
     } else {
       if (medicalRecord.getFirstName() != null && medicalRecord.getLastName() != null) {
         person.setFirstName(medicalRecord.getFirstName());
@@ -40,16 +99,7 @@ public class MedicalRecordService {
     if (medicalRecord.getBirthdate() != null) {
       person.setBirthDate(medicalRecord.getBirthdate());
     }
-    personService.savePerson(person);
 
-
-    return medicalRecord;
-  }
-
-  public void deleteMedicalRecord(String firstName, String lastName) {
-    Long personID = personService.getPersonByName(firstName, lastName).orElseThrow().getIdPerson();
-
-    allergiesService.deleteAllergiesByPersonId(personID);
-    medicationService.deleteMedicalRecordByPersonId(personID);
+    return person;
   }
 }

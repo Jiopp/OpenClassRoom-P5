@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -17,10 +19,12 @@ public class Medication {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column
-  private Long personId;
+  @ManyToOne()
+  @JoinColumn(name="idPerson", nullable=false)
+  private Person person;
 
   @Column
   private String medication;
+
 
 }
