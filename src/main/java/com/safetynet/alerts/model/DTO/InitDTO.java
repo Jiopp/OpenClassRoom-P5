@@ -8,6 +8,6 @@ public class InitDTO {
 
   List<PersonDTO> persons;
   List<FirestationDTO> firestations;
-  List<MedicalRecordsDTO> medicalrecords;
+  List<MedicalRecordDTO> medicalrecords;
 
 }
