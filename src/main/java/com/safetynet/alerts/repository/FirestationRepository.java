@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface FirestationRepository extends CrudRepository<Firestation, Long> {
   Optional<Firestation> findByAddress(String address);
   Optional<Firestation> findByStationNumber(Integer station_number);
+  void deleteFirestationByAddress(String address);
+
 
 }

@@ -59,10 +59,10 @@ public class FirestationController {
   /**
    * Delete - Delete a firestation/address mapping
    *
-   * @param id - The id of the firestation/address mapping to delete
+   * @param address - The address of the firestation/address mapping to delete
    */
-  @DeleteMapping("/firestation/{id}")
-  public void deleteFirestation(@PathVariable("id") final Long id) {
-    firestationService.deleteFirestation(id);
+  @DeleteMapping("/firestation/{Address}")
+  public void deleteFirestationByAddress(@PathVariable("Address") final String address) {
+    firestationService.deleteFirestationByAddress(address);
   }
 }

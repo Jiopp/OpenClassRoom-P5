@@ -6,6 +6,7 @@ import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Data
 @Service
@@ -43,4 +44,8 @@ public class FirestationService {
     return firestationRepository.save(firestation);
   }
 
+  @Transactional
+  public void deleteFirestationByAddress(String address) {
+    firestationRepository.deleteFirestationByAddress(address);
+  }
 }
