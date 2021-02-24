@@ -1,12 +1,11 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.DTO.FirestationDTO;
-import com.safetynet.alerts.model.DTO.InitDTO;
-import com.safetynet.alerts.model.DTO.MedicalRecordDTO;
-import com.safetynet.alerts.model.DTO.PersonDTO;
-import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.MedicalRecord;
-import com.safetynet.alerts.model.Person;
+import static java.util.stream.Collectors.toList;
+
+import com.safetynet.alerts.model.dto.FirestationDTO;
+import com.safetynet.alerts.model.dto.InitDTO;
+import com.safetynet.alerts.model.dto.MedicalRecordDTO;
+import com.safetynet.alerts.model.dto.PersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,53 +21,20 @@ public class InitService {
   @Autowired
   private MedicalRecordService medicalRecordService;
 
+  /**
+   * This method is used only to initialize some data in the application. It will parse the initDTO and save every person, every firestation and every medical record
+   *
+   * @param initDTO the object init
+   */
   public void init(InitDTO initDTO) {
 
-    for (PersonDTO personDTO : initDTO.getPersons()) {
-      // TODO créer une liste en utilisant les Lambda + utiliser savePersons
-      Person person = new Person();
-      person.setFirstName(personDTO.getFirstName());
-      person.setLastName(personDTO.getLastName());
-      person.setAddress(personDTO.getAddress());
-      person.setCity(personDTO.getCity());
-      person.setZip(personDTO.getZip());
-      person.setPhone(personDTO.getPhone());
-      person.setEmail(personDTO.getEmail());
-      personService.savePerson(person);
-    }
-    // TODO retirer les if + utiliser saveFirestations
-    for (FirestationDTO firestationDTO : initDTO.getFirestations()) {
-      Firestation firestation = new Firestation();
+    personService.savePersons(initDTO.getPersons().stream().map(PersonDTO::convertToPerson).collect(toList()));
 
-      if (firestationDTO.getAddress() != null) {
-        firestation.setAddress(firestationDTO.getAddress());
-      }
-      if (firestationDTO.getStation() != null) {
-        firestation.setStationNumber(firestationDTO.getStation());
-      }
-      firestationService.saveFirestation(firestation);
-    }
+    firestationService.saveFirestations(
+        initDTO.getFirestations().stream().map(FirestationDTO::convertToFirestation).collect(toList()));
 
-    // TODO retirer les if + utiliser saveMedicalRecords
-    for (MedicalRecordDTO medicalRecordDTO : initDTO.getMedicalrecords()) {
-      MedicalRecord medicalRecord = new MedicalRecord();
-
-      if (medicalRecordDTO.getFirstName() != null) {
-        medicalRecord.setFirstName(medicalRecordDTO.getFirstName());
-      }
-      if (medicalRecordDTO.getLastName() != null) {
-        medicalRecord.setLastName(medicalRecordDTO.getLastName());
-      }
-      if (medicalRecordDTO.getBirthdate() != null) {
-        medicalRecord.setBirthdate(medicalRecordDTO.getBirthdate());
-      }
-      if (medicalRecordDTO.getMedications() != null) {
-        medicalRecord.setMedications(medicalRecordDTO.getMedications());
-      }
-      if (medicalRecordDTO.getAllergies() != null) {
-        medicalRecord.setAllergies(medicalRecordDTO.getAllergies());
-      }
-      medicalRecordService.saveMedicalRecord(medicalRecord);
-    }
+    medicalRecordService
+        .saveMedicalRecords(initDTO.getMedicalrecords().stream().map(MedicalRecordDTO::convertToMedicalRecord)
+            .collect(toList()));
   }
 }

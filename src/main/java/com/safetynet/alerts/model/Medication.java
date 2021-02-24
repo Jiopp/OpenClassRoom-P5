@@ -9,11 +9,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+/**
+ * Represent a medication for a Person
+ */
 @Entity
 @Table()
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Medication {
 
   @Id
@@ -22,11 +31,10 @@ public class Medication {
 
   @JsonBackReference
   @ManyToOne()
-  @JoinColumn(name="idPerson", nullable=false)
+  @JoinColumn(name = "firstName", nullable = false)
+  @JoinColumn(name = "lastName", nullable = false)
   private Person person;
 
   @Column
-  private String medication;
-
-
+  private String medicationAndDosage;
 }
