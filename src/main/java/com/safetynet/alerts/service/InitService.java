@@ -7,53 +7,36 @@ import com.safetynet.alerts.model.DTO.PersonDTO;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Data
 @Service
+@Transactional
 public class InitService {
 
-  private final PersonService personService;
-  private final FirestationService firestationService;
-  private final MedicalRecordService medicalRecordService;
+  @Autowired
+  private PersonService personService;
+  @Autowired
+  private FirestationService firestationService;
+  @Autowired
+  private MedicalRecordService medicalRecordService;
 
-  @Transactional
   public void init(InitDTO initDTO) {
 
     for (PersonDTO personDTO : initDTO.getPersons()) {
+      // TODO créer une liste en utilisant les Lambda + utiliser savePersons
       Person person = new Person();
-
-      if (personDTO.getFirstName() != null) {
-        person.setFirstName(personDTO.getFirstName());
-      }
-      if (personDTO.getLastName() != null) {
-        person.setLastName(personDTO.getLastName());
-      }
-      if (personDTO.getAddress() != null) {
-        person.setAddress(personDTO.getAddress());
-      }
-
-      if (personDTO.getCity() != null) {
-        person.setCity(personDTO.getCity());
-      }
-
-      if (personDTO.getZip() != null) {
-        person.setZip(personDTO.getZip());
-      }
-
-      if (personDTO.getPhone() != null) {
-        person.setPhone(personDTO.getPhone());
-      }
-
-      if (personDTO.getEmail() != null) {
-        person.setEmail(personDTO.getEmail());
-      }
-
+      person.setFirstName(personDTO.getFirstName());
+      person.setLastName(personDTO.getLastName());
+      person.setAddress(personDTO.getAddress());
+      person.setCity(personDTO.getCity());
+      person.setZip(personDTO.getZip());
+      person.setPhone(personDTO.getPhone());
+      person.setEmail(personDTO.getEmail());
       personService.savePerson(person);
     }
-
+    // TODO retirer les if + utiliser saveFirestations
     for (FirestationDTO firestationDTO : initDTO.getFirestations()) {
       Firestation firestation = new Firestation();
 
@@ -66,6 +49,7 @@ public class InitService {
       firestationService.saveFirestation(firestation);
     }
 
+    // TODO retirer les if + utiliser saveMedicalRecords
     for (MedicalRecordDTO medicalRecordDTO : initDTO.getMedicalrecords()) {
       MedicalRecord medicalRecord = new MedicalRecord();
 

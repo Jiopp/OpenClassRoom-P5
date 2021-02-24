@@ -3,6 +3,7 @@ package com.safetynet.alerts.service;
 import com.safetynet.alerts.exception.PersonNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class PersonService {
 
   public Person savePerson(Person person) {
     return personRepository.save(person);
+  }
+
+  public void savePersons(List<Person> persons) {
+    // TODO convertir une liste en Iterable
+    return personRepository.saveAll(persons);
   }
 
   @Transactional
