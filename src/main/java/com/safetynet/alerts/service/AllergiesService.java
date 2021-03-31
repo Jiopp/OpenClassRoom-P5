@@ -1,9 +1,7 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.Allergies;
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.AllergiesRepository;
-import java.util.List;
-import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,36 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AllergiesService {
 
-  private final AllergiesRepository allergiesRepository;
-
   @Autowired
-  public AllergiesService(AllergiesRepository allergiesRepository) {
-    this.allergiesRepository = allergiesRepository;
+  private AllergiesRepository allergiesRepository;
+
+  /**
+   * This method will delete every record of allergies for a person
+   *
+   * @param person The person for which we want to delete the allergies
+   */
+  public void deleteAllergiesByPerson(final Person person) {
+    allergiesRepository.deleteByPerson(person);
   }
-
-  public Optional<Allergies> getAllergy(final Long id) {
-    return allergiesRepository.findById(id);
-  }
-
-  public List<Allergies> getAllergiesForOnePerson(final Long person_id) {
-    return allergiesRepository.findByPersonId(person_id);
-  }
-
-  public Iterable<Allergies> getAllergies() {
-    return allergiesRepository.findAll();
-  }
-
-  public void deleteAllergy(final Long id) {
-    allergiesRepository.deleteById(id);
-  }
-
-  public void deleteAllergiesByPersonId(final Long person_id) {
-    allergiesRepository.deleteByPersonId(person_id);
-  }
-
-
-  public Allergies saveAllergy(Allergies allergy) {
-    return allergiesRepository.save(allergy);
-  }
-
 }
